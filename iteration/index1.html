@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="http://dimplejs.org/dist/dimple.v2.2.0.min.js"></script>
+</head>
+<body>
+	<script type="text/javascript">
+		var diameter = 800, //max size of the bubbles
+            margin = 40;
+
+var bubble = d3.layout.pack()
+    .sort(null)
+    .size([diameter, diameter])
+    .padding(200);
+
+var svg = d3.select("body")
+    .append("svg")
+    .attr("width", diameter + margin)
+    .attr("height", diameter + margin)
+    .attr("class", "bubble");
+
+d3.csv("data/FY-all.csv", function(error, data){
+
+	if(error) throw error;
+
+	yearset = d3.set();
+    //convert numerical values from strings to numbers
+    data = data.map(function(d){ d.value = +d["count"]; 
+    							 yearset.add(d.year);
+    							 return d; });
+    years = yearset.values();
+
+    data2015 = dimple.filterData(data, 'year', '1997');
+
+    color = d3.scale.linear()
+    		  .domain(d3.extent(data, function(d){ return d.value;}))
+    		  .range(['white', 'steelblue']); //color category
+
+    //bubbles needs very specific format, convert data to this.
+    var nodes = bubble.nodes({children:data2015})
+    				  .filter(function(d) { 
+    				  	return !d.children; 
+    				  });
+
+    //setup the chart
+    var bubbles = svg.append("g")
+        .attr("transform", "translate(30,30)")
+        .selectAll(".bubble")
+        .data(nodes)
+        .enter();
+
+    var radius = d3.scale.sqrt()
+                   .domain([0, d3.max(data, function(d) {return d.count; })])
+                   .range([0, 3000]);
+
+    //create the bubbles
+    bubbles.append("circle")
+        .attr("r", function(d){ return radius(d.r); })
+        .attr("cx", function(d){ return d.x; })
+        .attr("cy", function(d){ return d.y; })
+        .style("fill", function(d) { return color(d.value); })
+        .style('stroke', 'steelblue');
+
+    //format the text for each bubble
+    bubbles.append("text")
+        .attr("x", function(d){ return d.x; })
+        .attr("y", function(d){ return d.y + 5; })
+        .attr("text-anchor", "middle")
+        .text(function(d){ return d.country; })
+        .style({
+            "fill":"black", 
+            "font-size": "12px"
+        });
+})
+	</script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+
+h2 {
+margin-top: 35px;
+font-family: sans-serif;
+font-size: 1.6em;
+text-indent: 160px;
+color: gray
+}
+
+#title_text{
+    font-family: sans-serif);
+    font-size: 10px;
+    color: grey
+}
+
+#option {
+    padding: 12px 15px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    position:absolute;
+    transition: .5s ease;
+    left: 810px;
+    top: 370px
+}
+
+#option1 {
+    padding: 12px 15px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    position:absolute;
+    transition: .5s ease;
+    left: 810px;
+    top: 400px
+}
+
+p.top{
+    display: block;
+    padding-left: 6.5em;
+    position: relative;
+    left: 60px
+}
+
+p.bottom{
+    display: block;
+    font-size: 12px;
+    padding-left: 6.5em;
+    position: relative;
+    text-align: right;
+    right: 150px
+}
