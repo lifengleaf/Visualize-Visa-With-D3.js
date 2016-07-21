@@ -63,6 +63,7 @@ function updateYear(){
     // y axis
     var y = myChart.addMeasureAxis("y", "count");
     y.showGridlines = true;
+    y.title = "H-1B Visa Count in 1997 - 2015"
     
     // draw bar plot
     var mySeries = myChart.addSeries("year", dimple.plot.bar);
@@ -105,7 +106,7 @@ function updateYear(){
     myChart.legends = [];
 
     svg.selectAll("title_text")
-    .data(["Click to Show"])
+    .data(["Click to Filter"])
     .enter()
     .append("text")
     .attr("x", 800)
@@ -180,7 +181,7 @@ function updateRatio(){
 
     // x axis
     var x = myChart.addCategoryAxis("x", 'country');
-    x.title = "Top 10 Countries";
+    x.title = "Country";
 
     // y axis
     var y = myChart.addMeasureAxis("y", "ratio");
@@ -228,7 +229,7 @@ function updateRatio(){
     myChart.legends = [];
 
     svg.selectAll("title_text")
-    .data(["Click to Show"])
+    .data(["Click to Filter"])
     .enter()
     .append("text")
     .attr("x", 800)
