@@ -6,29 +6,38 @@ d3.csv("data/FY-all.csv", function (data) {
   d3.select('svg').attr('id', 'init');
 
   var myChart = new dimple.chart(svg, data);
-  myChart.setBounds("20%", "5%", "60%", "70%");
+  myChart.setBounds("20%", "5%", "60%", "60%");
 
   // x axis
-  var x = myChart.addTimeAxis("x", 'year', '%Y', "%Y");
-  x.title = "Year";
+  var x = myChart.addCategoryAxis("x", 'country');
+  x.title = "Top 10 Countries";
 
   // y axis
   var y = myChart.addMeasureAxis("y", "count");
   y.showGridlines = true;
-  y.title = "H-1B Visa Count";
+  y.title = "H-1B Visa Count in 2015";
 
   // draw bar plot
-  var mySeries = myChart.addSeries("country", dimple.plot.line);
-  //mySeries.interpolation = "step";
+  var mySeries = myChart.addSeries("year", dimple.plot.bar);
 
   // add legend on the right
-  var myLegend = myChart.addLegend(930, 200, 80, 600, "right");
+  var myLegend = myChart.addLegend(800, 200, 80, 600, "right");
 
-  // show only the top three countries, for other lines overlaps
-  myChart.data = dimple.filterData(data, "country", ["India", 
-    "China - mainland", "Great Britain and Northern Ireland"]);
-
+  // by default show newest data
+  myChart.data = dimple.filterData(data, "year", "2015");    
   myChart.draw();
+
+  // format axis label
+  myChart.axes[0].shapes
+      .call(d3.svg.axis()
+        .orient("bottom")
+        .scale(myChart.axes[0]._scale))
+      .selectAll("text")
+      .style("text-anchor", "end")
+      .style('font-size', "1.2em")
+      .attr("dx", "0.5em")
+      .attr("dy", "1.5em")
+      .attr("transform", "rotate(-30)")
 
 });
 
@@ -177,7 +186,7 @@ function updateRatio(){
     // y axis
     var y = myChart.addMeasureAxis("y", "ratio");
     y.showGridlines = true;
-    y.title = "H-1B Visa Count Per Capita (‰)";
+    y.title = "H-1B Visa Count Per Capita (*1000000)";
 
     // draw bar plot
     var mySeries = myChart.addSeries("year", dimple.plot.bar);
@@ -259,7 +268,7 @@ function updateRatio(){
 
         filterValues = newFilters;
         console.log(filterValues);
-        y.title = "H-1B Visa Count Per Capita in " + filterValues + "(‰)";
+        y.title = "H-1B Visa Count Per Capita in " + filterValues + "(*1000000)";
         // filter the data
         myChart.data = dimple.filterData(data, "year", filterValues);
         

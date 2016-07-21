@@ -10,7 +10,7 @@ var margin = 21,
 
 var svg = dimple.newSvg("body", width, height + margin);
 
-d3.csv("../P6/data/FY-all.csv", function (data) {
+d3.csv("data/FY-all.csv", function (data) {
 
   var myChart = new dimple.chart(svg, data);
   myChart.setBounds(margin*3, margin*3, width/1.4, height/1.3);
@@ -29,7 +29,7 @@ d3.csv("../P6/data/FY-all.csv", function (data) {
   y2.showGridlines = true;
   y2.title = "H-1B Visa Count";
 
-  var z = myChart.addMeasureAxis('z', "radius");
+  //var z = myChart.addMeasureAxis('z', "radius");
   var s = myChart.addSeries("year", dimple.plot.bubble);
 
   var myLegend = myChart.addLegend(880, 200, 80, 600, "right");

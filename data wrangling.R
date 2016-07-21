@@ -1,5 +1,4 @@
 
-setwd("~/Documents/Nanodegree/P6")
 library(ggplot2)
 library(reshape)
 library(dplyr)
@@ -98,10 +97,10 @@ population<- rbind(population, subdf)
 fulldf<- merge(fulldf, population, by = c('country', 'year'))
 
 # create a new column to store ratio:
-# number of H-1B visa requests per 1,000,000 citizens
-fulldf<- mutate(fulldf, ratio = (cumsum(count)/cum(population))*1000000)
+# number of H-1B visa requests per 1,000 citizens
+fulldf<- mutate(fulldf, ratio = (count/population)*1000)
 
-fulldf$ratio<- round(fulldf$ratio, 2)
+fulldf$ratio<- round(fulldf$ratio, 4)
 fulldf<- fulldf[order(as.numeric(fulldf$year)),]
 
 write.csv(fulldf, 'data/FY-all.csv', row.names = FALSE)
